@@ -26,6 +26,8 @@ def registrarUsuario():
     session["apellido"] = request.form["apellido"]
     #listaUsuarios.append( nuevoUsuario )
     resultado = Usuario.agregaUsuario( nuevoUsuario )
+
+    # ToDo: Validar resultado que nos arroja 0
     if resultado == False:
         return redirect( '/' )
     else:
@@ -44,6 +46,7 @@ def loginUsuario():
     resultado = Usuario.verificaUsuario( usuario )
 
     if resultado == None:
+        # ToDO: Agregar mensajes de validaciones 
         return redirect( '/' )
     else:
         session["nombre"] = resultado.nombre
@@ -82,6 +85,8 @@ def editarUsuario( idUsuario ):
         "password" : request.form["password"]
     }
     resultado = Usuario.editarUsuario( usuarioAEditar )
+
+    # ToDo: Validar que el usuario editado sea el de la sesión
     session["nombre"] = request.form["nombre"]
     session["apellido"] = request.form["apellido"]
     return redirect( '/dashboard' )

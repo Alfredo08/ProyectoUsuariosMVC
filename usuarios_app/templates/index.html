@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Registro y Login </title>
+    </head>
+    <body>
+        <h2>
+            Registro
+        </h2>
+        <form action="/registroUsuario" method="POST">
+            <div>
+                <label for="nombre">
+                    Nombre:
+                </label> 
+                <input type="text" id="nombre" name="nombre" />
+            </div>
+            <div>
+                <label for="apellido">
+                    Apellido:
+                </label> 
+                <input type="text" id="apellido" name="apellido" />
+            </div>
+            <div>
+                <label for="usuario">
+                    Nombre de usuario:
+                </label> 
+                <input type="text" id="usuario" name="usuario" />
+            </div>
+            <div>
+                <label for="password">
+                    Password:
+                </label> 
+                <input type="password" id="password" name="password" />
+            </div>
+            <button type="submit">
+                Registrar
+            </button>
+        </form>
+        <h2>
+            Login
+        </h2>
+        <form action="/login" method="POST">
+            <div>
+                <label for="loginUsuario">
+                    Nombre de usuario:
+                </label> 
+                <input type="text" id="loginUsuario" name="loginUsuario" />
+            </div>
+            <input type="hidden" value="12345" id="oculto" name="oculto" />
+            <div>
+                <label for="passwordUsuario">
+                    Password:
+                </label> 
+                <input type="password" id="passwordUsuario" name="passwordUsuario" />
+            </div>
+            <button type="submit">
+                Login
+            </button>
+        </form>
+    </body>
+</html>

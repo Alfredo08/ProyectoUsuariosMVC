@@ -1,8 +1,6 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import render_template, request, redirect, session
 from usuarios_app import app
 from usuarios_app.modelos.modelo_usuarios import Usuario
-
-listaUsuarios = []
 
 @app.route( '/', methods=['GET'] )
 def despliegaRegistroLogin():
@@ -11,6 +9,7 @@ def despliegaRegistroLogin():
 @app.route( '/dashboard', methods=["GET"] )
 def despliegaDashboard():
     if 'nombre' in session:
+        listaUsuarios = Usuario.obtenerListaUsuarios()
         return render_template( "dashboard.html", usuarios=listaUsuarios )
     else:
         return redirect( '/' )
@@ -50,9 +49,40 @@ def loginUsuario():
         session["nombre"] = resultado.nombre
         session["apellido"] = resultado.apellido
         return redirect( '/dashboard' )
-    
+
 
 @app.route( '/logout', methods=["GET"] )
 def logoutUsuario():
     session.clear()
     return redirect( '/' )
+
+@app.route( '/usuario/remover/<idUsuario>', methods=["POST"] )
+def eliminarUsuario( idUsuario ):
+    usuarioAEliminar = {
+        "nombreusuario": idUsuario
+    }
+    resultado = Usuario.eliminarUsuario( usuarioAEliminar )
+    print( resultado )
+    return redirect( '/dashboard' )
+
+@app.route( '/usuario/editar/<idUsuario>', methods=["GET"] )
+def despliegaEditar( idUsuario ):
+    usuarioAEditar = {
+        "nombreusuario" : idUsuario
+    }
+    resultado = Usuario.obtenerDatosUsuario( usuarioAEditar )
+    return render_template( "editarUsuario.html", usuario=resultado[0] )
+
+@app.route( '/usuario/editar/<idUsuario>', methods=["POST"] )
+def editarUsuario( idUsuario ):
+    usuarioAEditar = {
+        "nombreusuario" : idUsuario,
+        "nombre" : request.form["nombre"],
+        "apellido" : request.form["apellido"],
+        "password" : request.form["password"]
+    }
+    resultado = Usuario.editarUsuario( usuarioAEditar )
+    session["nombre"] = request.form["nombre"]
+    session["apellido"] = request.form["apellido"]
+    return redirect( '/dashboard' )
+

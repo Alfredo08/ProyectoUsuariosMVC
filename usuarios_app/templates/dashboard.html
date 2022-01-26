@@ -16,7 +16,17 @@
         <ul>
             {% for usuario in usuarios: %}
                 <li>
-                    {{ usuario['nombre'] }} {{ usuario['apellido'] }}
+                    {{ usuario.nombre }} {{ usuario.apellido }} 
+                    <form method="POST" action="/usuario/remover/{{usuario.nombreusuario}}">
+                        <button> 
+                            Remover 
+                        </button>
+                    </form>
+                    <form method="GET" action="/usuario/editar/{{usuario.nombreusuario}}">
+                        <button> 
+                            Editar 
+                        </button>
+                    </form>
                 </li>
             {% endfor %}
         </ul>

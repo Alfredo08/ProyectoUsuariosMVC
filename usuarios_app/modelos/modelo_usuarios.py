@@ -1,4 +1,4 @@
-from usuarios_app.config.mysqlconnection import MySQLConnection, connectToMySQL
+from usuarios_app.config.mysqlconnection import connectToMySQL
 
 class Usuario:
     def __init__( self, nombre, apellido, nombreusuario, password ):
@@ -22,3 +22,30 @@ class Usuario:
             return usuarioResultado
         else:
             return None
+
+    @classmethod
+    def obtenerListaUsuarios( self ):
+        query = "SELECT * FROM usuarios;"
+        resultado = connectToMySQL( "usuarios_db" ).query_db( query )
+        listaUsuarios = []
+        for usuario in resultado:
+            listaUsuarios.append( Usuario( usuario["nombre"], usuario["apellido"], usuario["nombreusuario"], usuario["password"]) )
+        return listaUsuarios
+    
+    @classmethod
+    def eliminarUsuario( self, usuario ):
+        query = "DELETE FROM usuarios WHERE nombreusuario = %(nombreusuario)s;"
+        resultado = connectToMySQL( "usuarios_db" ).query_db( query, usuario )
+        return resultado
+
+    @classmethod
+    def obtenerDatosUsuario( self, usuario ):
+        query = "SELECT * FROM usuarios WHERE nombreusuario = %(nombreusuario)s;"
+        resultado = connectToMySQL( "usuarios_db" ).query_db( query, usuario )
+        return resultado
+    
+    @classmethod
+    def editarUsuario( self, usuarioAEditar ):
+        query = "UPDATE usuarios SET nombre = %(nombre)s, apellido = %(apellido)s, password = %(password)s WHERE nombreusuario = %(nombreusuario)s;"
+        resultado = connectToMySQL( "usuarios_db" ).query_db( query, usuarioAEditar )
+        return resultado

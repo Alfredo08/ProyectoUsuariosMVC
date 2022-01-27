@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Departamentos </title>
+    </head>
+    <body>
+        <h1>
+            Departamentos
+        </h1>
+        <ul>
+            {% for departamento in listaDepartamentos: %}
+                <li>
+                    {{departamento.id}} - {{departamento.nombre}}
+                </li>
+            {% endfor %}
+        </ul>
+        <ul>
+            {% for departamento in listaDepartamentosConUsuarios: %}
+                <li>
+                    <div>
+                        {{departamento.id}} - {{departamento.nombre}}
+                    </div>
+                    <ul>
+                        {% for usuario in departamento.usuarios: %}
+                            <li>
+                                {{usuario.nombre}} {{usuario.apellido}}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+        <form action="/dashboard" method="GET">
+            <button type="submit">
+                Volver al dashboard
+            </button>
+        </form>
+    </body>
+</html>

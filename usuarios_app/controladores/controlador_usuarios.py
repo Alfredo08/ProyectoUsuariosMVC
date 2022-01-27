@@ -20,11 +20,11 @@ def registrarUsuario():
         "nombre" : request.form["nombre"],
         "apellido" : request.form["apellido"],
         "nombreusuario" : request.form["usuario"],
-        "password" : request.form["password"]
+        "password" : request.form["password"],
+        "id_departamento" : request.form["departamento"]
     }
     session["nombre"] = request.form["nombre"]
     session["apellido"] = request.form["apellido"]
-    #listaUsuarios.append( nuevoUsuario )
     resultado = Usuario.agregaUsuario( nuevoUsuario )
 
     # ToDo: Validar resultado que nos arroja 0
@@ -82,7 +82,8 @@ def editarUsuario( idUsuario ):
         "nombreusuario" : idUsuario,
         "nombre" : request.form["nombre"],
         "apellido" : request.form["apellido"],
-        "password" : request.form["password"]
+        "password" : request.form["password"],
+        "id_departamento" : request.form["departamento"]
     }
     resultado = Usuario.editarUsuario( usuarioAEditar )
 

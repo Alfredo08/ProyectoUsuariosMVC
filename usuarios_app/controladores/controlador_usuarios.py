@@ -1,6 +1,9 @@
-from flask import render_template, request, redirect, session
+from flask import render_template, request, redirect, session, flash
 from usuarios_app import app
 from usuarios_app.modelos.modelo_usuarios import Usuario
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt( app )
 
 @app.route( '/', methods=['GET'] )
 def despliegaRegistroLogin():
@@ -16,11 +19,12 @@ def despliegaDashboard():
 
 @app.route( '/registroUsuario', methods=["POST"] )
 def registrarUsuario():
+    passwordEncriptado = bcrypt.generate_password_hash( request.form["password"] )
     nuevoUsuario = {
         "nombre" : request.form["nombre"],
         "apellido" : request.form["apellido"],
         "nombreusuario" : request.form["usuario"],
-        "password" : request.form["password"],
+        "password" : passwordEncriptado,
         "id_departamento" : request.form["departamento"]
     }
     session["nombre"] = request.form["nombre"]
@@ -28,10 +32,11 @@ def registrarUsuario():
     resultado = Usuario.agregaUsuario( nuevoUsuario )
 
     # ToDo: Validar resultado que nos arroja 0
-    if resultado == False:
-        return redirect( '/' )
-    else:
+    if type( resultado ) is int and resultado == 0:
         return redirect( '/dashboard' )
+    else:
+        flash( "Hubo un problema con el registro, intenta con otro nombre de usuario", "registro" )
+        return redirect( '/' )
 
 @app.route( '/login', methods=["POST"] )
 def loginUsuario():
@@ -39,19 +44,24 @@ def loginUsuario():
     passwordUsuario = request.form["passwordUsuario"]
 
     usuario = {
-        "nombreusuario" : loginUsuario,
-        "password" : passwordUsuario
+        "nombreusuario" : loginUsuario
     }
 
     resultado = Usuario.verificaUsuario( usuario )
 
     if resultado == None:
-        # ToDO: Agregar mensajes de validaciones 
+        flash( "El nombre de usuario esta escrito incorrectamente", "login" )
         return redirect( '/' )
     else:
-        session["nombre"] = resultado.nombre
-        session["apellido"] = resultado.apellido
-        return redirect( '/dashboard' )
+        print( resultado.password[0] )
+        print( passwordUsuario )
+        if not bcrypt.check_password_hash( resultado.password[0], passwordUsuario ):
+            flash( "El password es incorrecto", "login" )
+            return redirect( '/' )
+        else:
+            session["nombre"] = resultado.nombre
+            session["apellido"] = resultado.apellido
+            return redirect( '/dashboard' )
 
 
 @app.route( '/logout', methods=["GET"] )

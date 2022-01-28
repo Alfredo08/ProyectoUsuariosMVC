@@ -16,7 +16,7 @@ class Usuario:
     
     @classmethod
     def verificaUsuario( cls, usuario ):
-        query = "SELECT * FROM usuarios WHERE nombreusuario = %(nombreusuario)s AND password = %(password)s;"
+        query = "SELECT * FROM usuarios WHERE nombreusuario = %(nombreusuario)s;"
         resultado = connectToMySQL( "usuarios_db" ).query_db( query, usuario )
         if len( resultado ) > 0:
             usuarioResultado = Usuario( resultado[0]["nombre"], resultado[0]["apellido"], resultado[0]["nombreusuario"], resultado[0]["password"], resultado[0]["id_departamento"] )

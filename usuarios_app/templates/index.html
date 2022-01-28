@@ -44,6 +44,15 @@
             <button type="submit">
                 Registrar
             </button>
+            <div class="error">
+                {% with mensajes = get_flashed_messages( category_filter = ["registro"] ) %}
+                    {% for mensaje in mensajes: %}
+                        <p>
+                            {{mensaje}}
+                        </p>
+                    {% endfor %}
+                {% endwith %}
+            </div>
         </form>
         <h2>
             Login
@@ -65,6 +74,15 @@
             <button type="submit">
                 Login
             </button>
+            <div class="error">
+                {% with mensajes = get_flashed_messages( category_filter = ["login"] ) %}
+                    {% for mensaje in mensajes: %}
+                        <p>
+                            {{mensaje}}
+                        </p>
+                    {% endfor %}
+                {% endwith %}
+            </div>
         </form>
     </body>
 </html>

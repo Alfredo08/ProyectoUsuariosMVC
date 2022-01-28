@@ -53,9 +53,7 @@ def loginUsuario():
         flash( "El nombre de usuario esta escrito incorrectamente", "login" )
         return redirect( '/' )
     else:
-        print( resultado.password[0] )
-        print( passwordUsuario )
-        if not bcrypt.check_password_hash( resultado.password[0], passwordUsuario ):
+        if not bcrypt.check_password_hash( resultado.password, passwordUsuario ):
             flash( "El password es incorrecto", "login" )
             return redirect( '/' )
         else:

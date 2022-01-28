@@ -5,7 +5,7 @@ class Usuario:
         self.nombre = nombre
         self.apellido = apellido
         self.nombreusuario = nombreusuario
-        self.password = password,
+        self.password = password
         self.id_departamento = id_departamento
     
     @classmethod
@@ -19,7 +19,9 @@ class Usuario:
         query = "SELECT * FROM usuarios WHERE nombreusuario = %(nombreusuario)s;"
         resultado = connectToMySQL( "usuarios_db" ).query_db( query, usuario )
         if len( resultado ) > 0:
+            print( resultado[0]["password"] )
             usuarioResultado = Usuario( resultado[0]["nombre"], resultado[0]["apellido"], resultado[0]["nombreusuario"], resultado[0]["password"], resultado[0]["id_departamento"] )
+            print( usuarioResultado.password )
             return usuarioResultado
         else:
             return None

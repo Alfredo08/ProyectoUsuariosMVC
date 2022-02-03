@@ -27,6 +27,12 @@ class Usuario:
             return None
 
     @classmethod
+    def obtenerListaUsuariosAPI( self ):
+        query = "SELECT * FROM usuarios;"
+        resultado = connectToMySQL( "usuarios_db" ).query_db( query )
+        return resultado
+
+    @classmethod
     def obtenerListaUsuarios( self ):
         query = "SELECT * FROM usuarios;"
         resultado = connectToMySQL( "usuarios_db" ).query_db( query )

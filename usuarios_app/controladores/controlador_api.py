@@ -2,16 +2,19 @@ from flask import request, session, jsonify, json
 from usuarios_app import app
 from usuarios_app.modelos.modelo_usuarios import Usuario
 from flask_bcrypt import Bcrypt
+from flask_cors import cross_origin
 
 bcrypt = Bcrypt( app )
 
 @app.route( '/api/usuarios', methods=["GET"] )
+@cross_origin( origins="*" )
 def obtenerListaUsuarios():
     print( "Llego la petición" )
     listaUsuarios = Usuario.obtenerListaUsuariosAPI()
     return jsonify( listaUsuarios ), 200
 
 @app.route( '/api/usuarios/crear', methods=["POST"] )
+@cross_origin( origins="*", headers=['Content-type'] )
 def agregarUsuario():
     nuevoUsuario = json.loads( request.data.decode( 'UTF-8' ) )
     passwordEncriptado = bcrypt.generate_password_hash( nuevoUsuario["password"] )

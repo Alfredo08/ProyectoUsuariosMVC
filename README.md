@@ -4,7 +4,13 @@
         pipenv install Flask
     </li>
     <li>
-        pipenv install PyMySQL flask
+        pipenv install PyMySQL
+    </li>
+    <li>
+        pipenv install flas-cors
+    </li>
+    <li>
+        pipenv install flask-bcrypt
     </li>
     <li>
         pipenv shell

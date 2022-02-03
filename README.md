@@ -7,7 +7,7 @@
         pipenv install PyMySQL
     </li>
     <li>
-        pipenv install flas-cors
+        pipenv install flask-cors
     </li>
     <li>
         pipenv install flask-bcrypt
